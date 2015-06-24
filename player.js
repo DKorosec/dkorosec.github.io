@@ -219,7 +219,7 @@ var PlayerGen =
 				var powerUp = MAP.PowerUpMatrix[Y][X];
 				MAP.PowerUpMatrix[Y][X] = null;
 				powerUp.Sound.play();
-				console.log(powerUp.type);
+				//console.log(powerUp.type);
 				
 				//PowerUpEnum: Object.freeze({RANGE: 0, BOMB: 1, SPEED:3,PENALTY:8}),
 				/*
