@@ -126,6 +126,8 @@ var PlayerGen =
 			NewPositionCollidesWithMap: function()
 			{
 				var pos = this.CellOnFoot();
+				if(pos.x > MAP.MapX-2 || pos.y > MAP.MapY-2) //out of bounds lower field
+					return true;
 				var BC = MAP.GetBoundingCells(pos.x,pos.y);
 				var PlayerFootPos = this.PositionFoot();
 				var PlayerBoundPoints = this.GetBoundPoints();
