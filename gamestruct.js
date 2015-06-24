@@ -96,6 +96,12 @@ var GAME =
 		if(this.Paused)
 		{
 			this.RenderPause("GAME PAUSED");
+			if(this.BackgroundAudio != null)
+				this.BackgroundAudio.pause();
+		}
+		else
+		{
+			this.BackgroundAudio.play();
 		}
 		
 	},
