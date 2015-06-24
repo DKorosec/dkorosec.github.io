@@ -59,7 +59,7 @@ function GetBomb(X,Y,PlayerRoot)
 		},
 		Render: function()
 		{
-			MAP.Ctx.drawImage(GAME.SpriteBankImage,154+this.frames[this.frameIdx]*16,204,15,17,MAP.TileDim*this.x+MAP.TileDim*0.15,MAP.TileDim*this.y+MAP.TileDim*0.15,MAP.TileDim*0.7,MAP.TileDim*0.7);
+			MAP.Ctx.drawImage(GAME.SpriteBankImage,154+this.frames[this.frameIdx]*16,204,15,16,MAP.TileDim*this.x+MAP.TileDim*0.15,MAP.TileDim*this.y+MAP.TileDim*0.15,MAP.TileDim*0.7,MAP.TileDim*0.7);
 		},
 		GetExplosion: function()
 		{
