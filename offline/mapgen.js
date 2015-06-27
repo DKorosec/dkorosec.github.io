@@ -77,7 +77,6 @@ var MAP =
 		this.Ctx = ctx;
 		this.InitPrepareMap();
 		this.InitRenderBasicMap();	
-		MAP_READY_SOCK(); //server addon! ko se igra nalozi se to pozene!
 		
 		/*
 		var startPos = this.GetCellXY(1,1);
@@ -237,7 +236,7 @@ var MAP =
 					{
 						this.PowerUpMatrix[y][x] = null;
 					}
-					for(var i=0;i<GAME.NumberOfPlayers;i++)
+					for(var i=0;i<GAME.Players.length;i++)
 				    {
 						if(GAME.Players[i].dead)
 							continue;
@@ -251,7 +250,7 @@ var MAP =
 				}
 			}
 		}
-		for(var i=0;i<GAME.NumberOfPlayers;i++)
+		for(var i=0;i<GAME.Players.length;i++)
 		{
 	
 			if(GAME.Players[i].deadAnimation != null)

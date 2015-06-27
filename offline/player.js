@@ -1,29 +1,10 @@
-
 var PlayerGen =
 {
-	//Ugly code for MP ~.~
-	KEYUP:87,KEYDOWN:83,KEYLEFT:65,KEYRIGHT:68,KEYBOMB:13,
+	//TO SE POKLICE KO CALLBACK JAVI DA JE VSE POHANDALNO :)
+	KEYS: [[38,40,37,39,32],[87,83,65,68,70],[73,75,74,76,72],[104,101,100,102,13]],
 	PlayerMoveEnum: Object.freeze({DOWN: 0, RIGHT: 1, LEFT:2, UP: 3}),
-	PlayerKeyEnum: Object.freeze({DOWN: 1, RIGHT: 3, LEFT:2, UP: 0, BOMB: 4}),
+	PlayerKeyEnum: Object.freeze({DOWN: 1, RIGHT: 3, LEFT:2, UP: 0}),
 	PlayerTypeEnum: Object.freeze({WHITE: 1, GREEN: 2, RED:3, BLUE: 4}),
-	KeyToOnlineKey: function(key)
-	{
-		switch(key)
-		{
-			case this.KEYUP:
-				return this.PlayerKeyEnum.UP;
-			case this.KEYDOWN:
-				return this.PlayerKeyEnum.DOWN;
-			case this.KEYLEFT:
-				return this.PlayerKeyEnum.LEFT;
-			case this.KEYRIGHT:
-				return this.PlayerKeyEnum.RIGHT;
-			case this.KEYBOMB:
-				return this.PlayerKeyEnum.BOMB;
-			default:
-				return -1;
-		}
-	},
 	CreatePlayer: function(_X,_Y,ID)
 	{
 		var PG = this;
@@ -117,7 +98,7 @@ var PlayerGen =
 			},
 			Update: function() //gets Called 60 times per second!
 			{
-				if(this.walking)  //Ce das manjsi fps totiga deljitelja daj na 3 in za kolko se premikas povecaj *2 !
+				if(this.walking)
 				{
 					if(this.localTimeStamp%7==0 ||  this.firstStep)
 					{
@@ -277,23 +258,23 @@ var PlayerGen =
 			},
 			TryKeyDown: function(Key)
 			{
-				if(Key == PG.PlayerKeyEnum.UP)//W 
+				if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.UP])//W 
 				{
 					this.MoveDirection(PG.PlayerMoveEnum.UP);
 				}
-				else if(Key == PG.PlayerKeyEnum.LEFT)//a
+				else if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.LEFT])//a
 				{
 					this.MoveDirection(PG.PlayerMoveEnum.LEFT);
 				}
-				else if(Key == PG.PlayerKeyEnum.DOWN)//s
+				else if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.DOWN])//s
 				{
 					this.MoveDirection(PG.PlayerMoveEnum.DOWN);
 				}
-				else if(Key == PG.PlayerKeyEnum.RIGHT)//d
+				else if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.RIGHT])//d
 				{
 					this.MoveDirection(PG.PlayerMoveEnum.RIGHT);
 				}
-				else if(Key == PG.PlayerKeyEnum.BOMB)
+				else if(Key == PG.KEYS[this.id][4])
 				{
 					this.SetBomb();
 				}
@@ -301,22 +282,22 @@ var PlayerGen =
 			TryKeyUp: function(Key)
 			{
 				
-				if(Key ==  PG.PlayerKeyEnum.UP && this.MovingPos == PG.PlayerMoveEnum.UP )//W 
+				if(Key ==  PG.KEYS[this.id][PG.PlayerKeyEnum.UP] && this.MovingPos == PG.PlayerMoveEnum.UP )//W 
 				{
 					this.walking=false;
 					this.frameIdx=0;
 				}
-				else if(Key == PG.PlayerKeyEnum.LEFT && this.MovingPos == PG.PlayerMoveEnum.LEFT )//a
+				else if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.LEFT] && this.MovingPos == PG.PlayerMoveEnum.LEFT )//a
 				{
 					this.walking=false;
 					this.frameIdx=0;
 				}
-				else if(Key == PG.PlayerKeyEnum.DOWN && this.MovingPos == PG.PlayerMoveEnum.DOWN)//s
+				else if(Key == PG.KEYS[this.id][PG.PlayerKeyEnum.DOWN] && this.MovingPos == PG.PlayerMoveEnum.DOWN)//s
 				{
 					this.walking=false;
 					this.frameIdx=0;
 				}
-				else if(Key ==  PG.PlayerKeyEnum.RIGHT && this.MovingPos == PG.PlayerMoveEnum.RIGHT )//d
+				else if(Key ==  PG.KEYS[this.id][PG.PlayerKeyEnum.RIGHT] && this.MovingPos == PG.PlayerMoveEnum.RIGHT )//d
 				{
 					this.walking=false;
 					this.frameIdx=0;

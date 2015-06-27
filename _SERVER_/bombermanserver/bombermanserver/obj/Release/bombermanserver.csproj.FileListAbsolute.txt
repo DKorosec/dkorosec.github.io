@@ -1,0 +1,7 @@
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\bin\Release\bombermanserver.exe.config
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\bin\Release\bombermanserver.exe
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\bin\Release\bombermanserver.pdb
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\bin\Release\Fleck.dll
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\obj\Release\bombermanserver.csprojResolveAssemblyReference.cache
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\obj\Release\bombermanserver.exe
+C:\xampp\htdocs\net\BOMBERM4N\MP\_SERVER_\bombermanserver\bombermanserver\obj\Release\bombermanserver.pdb

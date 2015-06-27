@@ -1,0 +1,112 @@
+<html>
+<head>
+	<script type="text/javascript" src="mapgen.js" ></script>
+	<script type="text/javascript" src="gamestruct.js" ></script>
+	<script type="text/javascript" src="player.js" ></script>
+	<script type="text/javascript" src="vector.js" ></script>
+	<script type="text/javascript" src="bomb.js" ></script>
+	<script type="text/javascript" src="wall.js" ></script>
+	<script type="text/javascript" src="timer.js" ></script>
+	<script>
+		var KEYBOARD_MAP = ["","","","CANCEL","","","HELP","","BACK_SPACE","TAB","","","CLEAR","ENTER","RETURN","","SHIFT","CONTROL","ALT","PAUSE","CAPS_LOCK","KANA","EISU","JUNJA","FINAL","HANJA","","ESCAPE","CONVERT","NONCONVERT","ACCEPT","MODECHANGE","SPACE","PAGE_UP","PAGE_DOWN","END","HOME","LEFT","UP","RIGHT","DOWN","SELECT","PRINT","EXECUTE","PRINTSCREEN","INSERT","DELETE","","0","1","2","3","4","5","6","7","8","9","COLON","SEMICOLON","LESS_THAN","EQUALS","GREATER_THAN","QUESTION_MARK","AT","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","WIN","","CONTEXT_MENU","","SLEEP","NUMPAD0","NUMPAD1","NUMPAD2","NUMPAD3","NUMPAD4","NUMPAD5","NUMPAD6","NUMPAD7","NUMPAD8","NUMPAD9","MULTIPLY","ADD","SEPARATOR","SUBTRACT","DECIMAL","DIVIDE","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","F13","F14","F15","F16","F17","F18","F19","F20","F21","F22","F23","F24","","","","","","","","","NUM_LOCK","SCROLL_LOCK","WIN_OEM_FJ_JISHO","WIN_OEM_FJ_MASSHOU","WIN_OEM_FJ_TOUROKU","WIN_OEM_FJ_LOYA","WIN_OEM_FJ_ROYA","","","","","","","","","","CIRCUMFLEX","EXCLAMATION","DOUBLE_QUOTE","HASH","DOLLAR","PERCENT","AMPERSAND","UNDERSCORE","OPEN_PAREN","CLOSE_PAREN","ASTERISK","PLUS","PIPE","HYPHEN_MINUS","OPEN_CURLY_BRACKET","CLOSE_CURLY_BRACKET","TILDE","","","","","VOLUME_MUTE","VOLUME_DOWN","VOLUME_UP","","","SEMICOLON","EQUALS","COMMA","MINUS","PERIOD","SLASH","BACK_QUOTE","","","","","","","","","","","","","","","","","","","","","","","","","","","OPEN_BRACKET","BACK_SLASH","CLOSE_BRACKET","QUOTE","","META","ALTGR","","WIN_ICO_HELP","WIN_ICO_00","","WIN_ICO_CLEAR","","","WIN_OEM_RESET","WIN_OEM_JUMP","WIN_OEM_PA1","WIN_OEM_PA2","WIN_OEM_PA3","WIN_OEM_WSCTRL","WIN_OEM_CUSEL","WIN_OEM_ATTN","WIN_OEM_FINISH","WIN_OEM_COPY","WIN_OEM_AUTO","WIN_OEM_ENLW","WIN_OEM_BACKTAB","ATTN","CRSEL","EXSEL","EREOF","PLAY","ZOOM","","PA1","WIN_OEM_CLEAR",""];
+		function ShowKey(pID,cID,self,e)
+		{
+		  var code = e.keyCode;
+		  self.value = KEYBOARD_MAP[code];
+		  e.preventDefault();
+		  PlayerGen.KEYS[pID][cID] = code;
+		}
+		function MaxP(num)
+		{
+			GAME.NumberOfPlayers = num;
+			GAME.ResetEngine();
+			GAME.Paused = true;
+			GAME.OpenCloseControls();
+		}
+	</script>
+	<!--<script>function INIT_GAME(){GAME.Init();}</script>-->
+	<style>
+	#canvas-container {
+	    width: 100%;
+	    text-align:center;
+	}
+	canvas {
+		display: inline;
+	}
+	.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;border:none;}
+	.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+	.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+	.tg .tg-hgcj{font-weight:bold;text-align:center}
+	.tg .tg-yvvu{font-weight:bold;background-color:#ffffff;color:#000000;text-align:center}
+	.tg .tg-6997{background-color:#ffffff;color:#000000;text-align:center}
+	input{
+	   text-align:center;
+	}
+</style>
+	</style>
+</head>
+<body onload="GAME.Init()" style="background-color:#000000">
+<div id="canvas-container"> 
+		<!-- NAJ SE JEBE TOTA POFUKANA GLUPA TABELA SN JO KR Z NETA CUKNO FFS FAKING DIZAJN MENI SE NEDA. -->
+		<center id="table-container" style="display:none">
+		<table class="tg" >
+		<colgroup>
+		<col style="width: 114px">
+		<col style="width: 114px">
+		<col style="width: 114px">
+		<col style="width: 114px">
+		<col style="width: 114px">
+		<col style="width: 114px">
+		</colgroup>
+		  <tr>
+			<th class="tg-031e">Click to Config</th>
+			<th class="tg-hgcj">UP</th>
+			<th class="tg-hgcj">DOWN</th>
+			<th class="tg-hgcj">LEFT</th>
+			<th class="tg-hgcj">RIGHT</th>
+			<th class="tg-hgcj">BOMB</th>
+		  </tr>
+		  <tr>
+			<td class="tg-yvvu">White Player</td>
+			<td class="tg-6997"><input type="text" value="UP" onkeydown="ShowKey(0,0,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="DOWN" onkeydown="ShowKey(0,1,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="LEFT" onkeydown="ShowKey(0,2,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="RIGHT" onkeydown="ShowKey(0,3,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="SPACE" onkeydown="ShowKey(0,4,this,event)"/></td>
+		  </tr>
+		  <tr>
+			<td class="tg-yvvu">Green Player</td>
+			<td class="tg-6997"><input type="text" value="W" onkeydown="ShowKey(1,0,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="S" onkeydown="ShowKey(1,1,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="A" onkeydown="ShowKey(1,2,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="D" onkeydown="ShowKey(1,3,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="F" onkeydown="ShowKey(1,4,this,event)"/></td>
+		  </tr>
+		  <tr>
+			<td class="tg-yvvu">Red Player</td>
+			<td class="tg-6997"><input type="text" value="I" onkeydown="ShowKey(2,0,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="K" onkeydown="ShowKey(2,1,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="J" onkeydown="ShowKey(2,2,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="L" onkeydown="ShowKey(2,3,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="H" onkeydown="ShowKey(2,4,this,event)"/></td>
+		  </tr>
+		  <tr>
+			<td class="tg-yvvu">Blue Player</td>
+			<td class="tg-6997"><input type="text" value="NUMPAD8" onkeydown="ShowKey(3,0,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="NUMPAD5" onkeydown="ShowKey(3,1,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="NUMPAD4" onkeydown="ShowKey(3,2,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="NUMPAD6" onkeydown="ShowKey(3,3,this,event)"/></td>
+			<td class="tg-6997"><input type="text" value="ENTER" onkeydown="ShowKey(3,4,this,event)"/></td>
+		  </tr>
+		</table>
+		</br>
+		<h2 style="color:white">Number of players (2-4)</h2><button onclick="MaxP(2)" style="width:100px;">2</button><button onclick="MaxP(3)" style="width:100px;">3</button><button onclick="MaxP(4)" style="width:100px;">4</button>
+		</center>
+	<canvas id="ctx"></canvas><!-- style="display:none"-->
+	<br>
+	<p style="color:white">R = Reset, P = Pause, C = Controls</p>
+	<p style="color:white">Author: Dominik Korosec</p>
+</div>
+	
+</body>
+</html>
