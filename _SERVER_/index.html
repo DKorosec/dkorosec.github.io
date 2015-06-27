@@ -1,0 +1,172 @@
+<html>
+<head>
+	<style>
+	#canvas-container {
+	    width: 100%;
+	    text-align:center;
+	}
+	canvas {
+		display: inline;
+	}
+	.tg  {border-collapse:collapse;border-spacing:0;border:none;}
+	.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#000000;background-color:#000000;}
+	.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-color:#000000;color:#000000;background-color:#000000;}
+	.tg .tg-hgcj{font-weight:bold;text-align:center}
+	.tg .tg-yvvu{font-weight:bold;text-align:center}
+	.tg .tg-6997{background-color:#ffffff;color:#000000;text-align:center}
+	input{
+	   text-align:center;
+	}
+	.icon {
+  display: block;
+  width: 200px;
+  height: 32px;
+  margin: 50px;
+  border-radius: 3px;
+  background: CornflowerBlue;
+    
+  position: relative;
+  overflow: hidden;
+}
+
+/* "shine" element */
+/* Could be a pseudo element but they lack support for CSS transitions in some browsers */
+
+.icon .icon-effect {
+  position: absolute;
+  top: -110%;
+  left: -210%;
+  width: 200%;
+  height: 200%;
+
+  opacity: 0;
+  
+  background: rgba(255, 255, 255, 0.2);
+  background: -moz-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -webkit-gradient(
+    linear, left top, right top,
+    color-stop(0%  ,rgba(255, 255, 255, 0.2)),
+    color-stop(75% ,rgba(255, 255, 255, 0.2)),
+    color-stop(90% ,rgba(255, 255, 255, 0.8)),
+    color-stop(100%,rgba(255, 255, 255, 0.0))
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,6
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+
+  -webkit-transform: rotate(30deg);
+     -moz-transform: rotate(30deg);
+      -ms-transform: rotate(30deg);
+       -o-transform: rotate(30deg);
+          transform: rotate(30deg);
+    
+  -webkit-transition-property: left, top, opacity;
+     -moz-transition-property: left, top, opacity;
+      -ms-transition-property: left, top, opacity;
+       -o-transition-property: left, top, opacity;
+          transition-property: left, top, opacity;
+  -webkit-transition-duration: 0.5s, 0.5s, 0.1s;
+     -moz-transition-duration: 0.5s, 0.5s, 0.1s;
+      -ms-transition-duration: 0.5s, 0.5s, 0.1s;
+       -o-transition-duration: 0.5s, 0.5s, 0.1s;
+          transition-duration: 0.5s, 0.5s, 0.1s;
+  -webkit-transition-timing-function: ease;
+     -moz-transition-timing-function: ease;
+      -ms-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
+          transition-timing-function: ease;
+}
+
+/* Hover state - trigger effect */
+
+.icon:hover .icon-effect {
+  opacity: 1;
+  top: -30%;
+  left: -30%;
+}
+
+/* Active state */
+
+.icon:active .icon-effect {
+  opacity: 0;
+}
+p {
+    margin-top: 8px;
+}
+	</style>
+	<script>
+	function playOffline()
+	{
+		window.location = "offline";
+	}
+	function playOnline()
+	{
+		var addr = prompt("Please enter server address!\n(ip+port, example: 127.0.0.1:8887)", "");
+		window.location ="online/?host="+addr;
+	}
+	</script>
+</head>
+<body onload="" style="background-color:#000000">
+<div id="canvas-container"> 
+		<!-- NAJ SE JEBE TOTA POFUKANA GLUPA TABELA SN JO KR Z NETA CUKNO FFS FAKING DIZAJN MENI SE NEDA. -->
+		<center id="table-container">
+		<table class="tg" >
+		<colgroup>
+		<col style="width: 100px">
+		<col style="width: 100px">
+		</colgroup>
+		  <tr>
+			<th class="tg-hgcj" >
+					<a class="icon" onclick="playOffline()">
+					<p>Play Offline!</p>
+					<span class="icon-effect"></span>
+					</a>
+			</th>
+			<th class="tg-hgcj" >
+				<a class="icon" onclick="playOnline()">
+					<p >Play Online!</p>
+					<span class="icon-effect"></span>
+				</a>
+			</th>
+		  </tr>
+		</table>
+		</br>
+		</center>
+	<br>
+	<p style="color:white"></p>
+	<p style="color:white">Author: Dominik Korosec</p>
+</div>
+	
+</body>
+</html>
