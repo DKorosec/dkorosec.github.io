@@ -277,6 +277,9 @@ var PlayerGen =
 			},
 			TryKeyDown: function(Key)
 			{
+				if(this.dead)
+					return;
+				
 				if(Key == PG.PlayerKeyEnum.UP)//W 
 				{
 					this.MoveDirection(PG.PlayerMoveEnum.UP);
@@ -300,6 +303,8 @@ var PlayerGen =
 			},
 			TryKeyUp: function(Key)
 			{
+				if(this.dead)
+					return;
 				
 				if(Key ==  PG.PlayerKeyEnum.UP && this.MovingPos == PG.PlayerMoveEnum.UP )//W 
 				{
