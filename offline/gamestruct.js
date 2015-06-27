@@ -11,7 +11,7 @@ var GAME =
 	Init: function()
 	{
 		this.PrepareSpritesAndInitMap();
-		//this.PrepareAudio();
+		this.PrepareAudio();
 	},
 	PrepareAudio: function()
 	{
