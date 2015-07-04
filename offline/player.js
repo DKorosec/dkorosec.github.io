@@ -3,12 +3,13 @@ var PlayerGen =
 	//TO SE POKLICE KO CALLBACK JAVI DA JE VSE POHANDALNO :)
 	KEYS: [[38,40,37,39,32],[87,83,65,68,70],[73,75,74,76,72],[104,101,100,102,13]],
 	PlayerMoveEnum: Object.freeze({DOWN: 0, RIGHT: 1, LEFT:2, UP: 3}),
-	PlayerKeyEnum: Object.freeze({DOWN: 1, RIGHT: 3, LEFT:2, UP: 0}),
+	PlayerKeyEnum: Object.freeze({DOWN: 1, RIGHT: 3, LEFT:2, UP: 0, BOMB: 4}),
 	PlayerTypeEnum: Object.freeze({WHITE: 1, GREEN: 2, RED:3, BLUE: 4}),
 	CreatePlayer: function(_X,_Y,ID)
 	{
 		var PG = this;
 		var PLAYER =  {
+			isAI: false,
 			x:_X,
 			y:_Y,
 			MaxBombs: 1,
@@ -106,8 +107,11 @@ var PlayerGen =
 						this.walkFrameIdx++;
 						this.firstStep=false;
 					}
-					this.MoveTo(this.MovingPos);
+					if(!this.isAI)
+						this.MoveTo(this.MovingPos);
 				}
+				if(this.isAI)
+					this.MoveToAi(this.MovingPos);
 				this.Render();
 				this.localTimeStamp++;
 
@@ -175,8 +179,18 @@ var PlayerGen =
 				return false;
 				
 			},
-			MoveTo: function(DIRECTION)
+			AIPlan:null,
+			AIStack:{path:[],type:AI_STACK_TYPE.FOLLOW,ok:false},
+			MoveToAi: function(DIRECTION)
 			{
+				if(this.AIPlan == null)
+				{
+					if(this.AIStack.path.length==0)
+						return;
+					this.AIPlan = _GetCenterTile(this.AIStack.path.pop());
+				}
+				
+				this.walking = true;
 				//console.clear(); //odkomentiraj za anticheat
 				var tmpx = this.x;
 				var tmpy = this.y;
@@ -184,22 +198,67 @@ var PlayerGen =
 				var onBomb = MAP.BombsMatrix[pos.y][pos.x]!=null;
 				if(!onBomb)
 					pos = null;
+				//PG.PlayerMoveEnum
+				//this.MovingPos
+				var foot = this.PositionFoot();
 				
-				switch(DIRECTION)
+				//var ctx = MAP.Ctx;
+				//ctx.fillStyle="#FF0000";
+				//ctx.fillRect(this.AIPlan.x,this.AIPlan.y,10,10);
+				
+				if(this.AIPlan.x<foot.x)
 				{
-					case PG.PlayerMoveEnum.DOWN:
-						this.y+=this.MoveSpeed;
-					break;
-					case PG.PlayerMoveEnum.RIGHT:
-						this.x+=this.MoveSpeed;
-					break;
-					case PG.PlayerMoveEnum.LEFT:
-						this.x-=this.MoveSpeed;
-					break;
-					case PG.PlayerMoveEnum.UP:
-						this.y-=this.MoveSpeed;
-					break;
+					if(foot.x - this.MoveSpeed <= this.AIPlan.x)
+					{
+						this.SetCenterCell();
+						this.AIPlan = null;
+					}
+					else this.x-=this.MoveSpeed;
+					
+					this.MovingPos = PG.PlayerMoveEnum.LEFT;
 				}
+				else if(this.AIPlan.x>foot.x)
+				{
+					if(foot.x + this.MoveSpeed >= this.AIPlan.x)
+					{
+						this.SetCenterCell();
+						this.AIPlan = null;
+					}
+					else
+						this.x+=this.MoveSpeed;
+					
+					this.MovingPos = PG.PlayerMoveEnum.RIGHT;
+					
+				}else if(this.AIPlan.y<foot.y)
+				{
+					if(foot.y - this.MoveSpeed <= this.AIPlan.y)
+					{
+						this.SetCenterCell();
+						this.AIPlan = null;
+					}
+					else
+						this.y-=this.MoveSpeed;
+					
+					this.MovingPos = PG.PlayerMoveEnum.UP;
+					
+				}else if(this.AIPlan.y>foot.y)
+				{
+					if(foot.y + this.MoveSpeed >= this.AIPlan.y)
+					{
+						this.SetCenterCell();
+						this.AIPlan = null;
+					}
+					else
+						this.y+=this.MoveSpeed;
+					
+					this.MovingPos = PG.PlayerMoveEnum.DOWN;
+				}
+				else
+				{
+					this.SetCenterCell();
+					this.AIPlan = null;
+					this.walking = false;
+				}			
 				if(this.NewPositionCollidesWithMap())
 				{
 					this.y = tmpy;
@@ -215,6 +274,57 @@ var PlayerGen =
 				{
 					this.ConsumePowerUp(pos.x,pos.y);
 				}
+			},
+			MoveTo: function(DIRECTION)
+			{
+				//console.clear(); //odkomentiraj za anticheat
+				var tmpx = this.x;
+				var tmpy = this.y;
+				var pos = this.CellOnFoot();
+				var onBomb = MAP.BombsMatrix[pos.y][pos.x]!=null;
+				if(!onBomb)
+					pos = null;
+				switch(DIRECTION)
+				{
+					case PG.PlayerMoveEnum.DOWN:
+						this.y+=this.MoveSpeed;
+					break;
+					case PG.PlayerMoveEnum.RIGHT:
+						this.x+=this.MoveSpeed;
+					break;
+					case PG.PlayerMoveEnum.LEFT:
+						this.x-=this.MoveSpeed;
+					break;
+					case PG.PlayerMoveEnum.UP:
+						this.y-=this.MoveSpeed;
+					break;
+				}				
+				if(this.NewPositionCollidesWithMap())
+				{
+					this.y = tmpy;
+					this.x = tmpx;
+				}
+				if(this.NewPositionCollidesWithBomb(pos))
+				{
+					this.y = tmpy;
+					this.x = tmpx;
+				}
+				pos = this.CellOnFoot();
+				if(MAP.PowerUpMatrix[pos.y][pos.x] != null)
+				{
+					this.ConsumePowerUp(pos.x,pos.y);
+				}
+			},
+			SetCenterCell: function()
+			{
+				var pCell = this.CellOnFoot();
+				var pCellCenter = {
+					x: pCell.x*MAP.TileDim+MAP.TileDim*0.5 ,
+					y: pCell.y*MAP.TileDim+MAP.TileDim*0.5
+				};
+		
+				this.y = pCellCenter.y - (MAP.TileDim*0.85);
+				this.x = pCellCenter.x - (MAP.TileDim/2);
 			},
 			ConsumePowerUp: function(X,Y)
 			{
@@ -304,7 +414,53 @@ var PlayerGen =
 				}
 			},
 
-		
+			KeyDown: function(Key)
+			{
+				if(Key == PG.PlayerKeyEnum.UP)//W 
+				{
+					this.MoveDirection(PG.PlayerMoveEnum.UP);
+				}
+				else if(Key == PG.PlayerKeyEnum.LEFT)//a
+				{
+					this.MoveDirection(PG.PlayerMoveEnum.LEFT);
+				}
+				else if(Key == PG.PlayerKeyEnum.DOWN)//s
+				{
+					this.MoveDirection(PG.PlayerMoveEnum.DOWN);
+				}
+				else if(Key == PG.PlayerKeyEnum.RIGHT)//d
+				{
+					this.MoveDirection(PG.PlayerMoveEnum.RIGHT);
+				}
+				else if(Key == PG.PlayerKeyEnum.BOMB)
+				{
+					this.SetBomb();
+				}
+			},
+			KeyUp: function(Key)
+			{
+				
+				if(Key ==  PG.PlayerKeyEnum.UP && this.MovingPos == PG.PlayerMoveEnum.UP )//W 
+				{
+					this.walking=false;
+					this.frameIdx=0;
+				}
+				else if(Key == PG.PlayerKeyEnum.LEFT && this.MovingPos == PG.PlayerMoveEnum.LEFT )//a
+				{
+					this.walking=false;
+					this.frameIdx=0;
+				}
+				else if(Key == PG.PlayerKeyEnum.DOWN && this.MovingPos == PG.PlayerMoveEnum.DOWN)//s
+				{
+					this.walking=false;
+					this.frameIdx=0;
+				}
+				else if(Key ==  PG.PlayerKeyEnum.RIGHT && this.MovingPos == PG.PlayerMoveEnum.RIGHT )//d
+				{
+					this.walking=false;
+					this.frameIdx=0;
+				}
+			},
 		};
 		return PLAYER;
 	}

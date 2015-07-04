@@ -71,6 +71,10 @@ var MAP =
 	{
 		return {x: Math.floor(X/this.TileDim), y: Math.floor(Y/this.TileDim)};
 	},
+	_CellPosToXY: function(XY)
+	{
+		return {x: Math.floor(XY.x/this.TileDim), y: Math.floor(XY.y/this.TileDim)};
+	},
 	Init: function(can,ctx)
 	{
 	 	this.Canvas = can;
@@ -133,7 +137,7 @@ var MAP =
 					this.Map[y][x] = this.MapStatusEnum.SOLID_BORDER;
 				else if(x%2==0 && y%2==0)
 					this.Map[y][x] = this.MapStatusEnum.SOLID_WALL;
-				else if(randVal<=0.7)
+				else if(randVal<=0.7) //0.7!
 				{
 					this.Map[y][x] = this.MapStatusEnum.WALL;
 					if(Math.random()<=0.40)
@@ -262,5 +266,8 @@ var MAP =
 			}
 		}	
 	}
-	
 };
+function _GetCenterTile(tileXY)
+{
+	return {x:tileXY.x*MAP.TileDim+MAP.TileDim*0.5,y:tileXY.y*MAP.TileDim+MAP.TileDim*0.5};
+}
