@@ -136,7 +136,7 @@ function InjectAI(PLAYER)
 			
 			if(this.IsAIDeadLock()) //TO SE MORDA NITI NE RABI VEC....  
 			{
-				console.log("dead-lock");
+				//console.log("dead-lock");
 				this.player.AIPlan = null;
 				this.player.SetCenterCell();
 				this.player.AIStack = this.SafePath();
@@ -144,7 +144,7 @@ function InjectAI(PLAYER)
 			{
 				if(this.NotMovingCount++>=10 && this.IsDanger())
 				{
-					console.log("LOCKET!")
+					//console.log("LOCKET!")
 					this.player.AIStack.path = [];
 					this.player.AIPlan = null;
 					//this.player.SetCenterCell();//ZAKOMENTIRO OB 3 ZJUTRAJ! MAYBE IM WRONG, SKLICUJ NA TO CE KAJ NE BO STIMALO!
