@@ -202,7 +202,7 @@ function InjectAI(PLAYER)
 					{ 
 						if(Math.random()<=0.02) //ali pac ne sledi tole zbrisi ce ti neo vsec
 						{
-							console.log("NE SLEDI!");
+							//console.log("NE SLEDI!");
 							_path = this.PathToWall();
 						}
 						else
